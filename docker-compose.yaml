@@ -5,7 +5,7 @@ volumes:
 
 services:
   edgedb:
-    image: edgedb/edgedb
+    image: edgedb/edgedb:2.9
     hostname: edgedb
     environment:
       EDGEDB_SERVER_SECURITY: insecure_dev_mode
