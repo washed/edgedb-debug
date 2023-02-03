@@ -19,7 +19,7 @@ async function insertData() {
 async function main() {
     while (true) {
         await insertData()
-        await delay(10000)
+        await delay(5000)
     }
 }
 
