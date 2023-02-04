@@ -5,7 +5,7 @@ volumes:
 
 services:
   edgedb:
-    image: edgedb/edgedb:2.9
+    image: edgedb/edgedb:2.3
     hostname: edgedb
     environment:
       EDGEDB_SERVER_SECURITY: insecure_dev_mode
@@ -22,9 +22,9 @@ services:
     restart: always
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:5656/server/status/ready"]
-      interval: 1s
+      interval: 5s
       timeout: 5s
-      retries: 20
+      retries: 100
       start_period: 10s
 
   go-test:

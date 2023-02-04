@@ -13,7 +13,7 @@ async function insertData() {
         new Date(),
         "js-test"
     ]);
-    console.log(result);
+    console.log(new Date(), "inserted", result);
 }
 
 async function main() {
