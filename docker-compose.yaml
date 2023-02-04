@@ -20,12 +20,12 @@ services:
     ports:
       - "5658:5656"
     restart: always
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:5656/server/status/ready"]
-      interval: 5s
-      timeout: 5s
-      retries: 100
-      start_period: 10s
+#    healthcheck:
+#      test: [ "CMD", "curl", "-f", "http://localhost:5656/server/status/ready"]
+#      interval: 5s
+#      timeout: 5s
+#      retries: 100
+#      start_period: 10s
 
   go-test:
     build:
@@ -33,9 +33,9 @@ services:
     restart: always
     environment:
       EDGEDB_DSN: 'edgedb://edgedb:secret@edgedb:5656/edgedb?tls_security=insecure'
-    depends_on:
-      edgedb:
-        condition: service_healthy
+#    depends_on:
+#      edgedb:
+#        condition: service_healthy
 
   js-test:
     build:
@@ -43,6 +43,6 @@ services:
     restart: always
     environment:
       EDGEDB_DSN: 'edgedb://edgedb:secret@edgedb:5656/edgedb?tls_security=insecure'
-    depends_on:
-      edgedb:
-        condition: service_healthy
+#    depends_on:
+#      edgedb:
+#        condition: service_healthy
