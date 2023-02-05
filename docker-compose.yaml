@@ -5,7 +5,11 @@ volumes:
 
 services:
   edgedb:
-    image: edgedb/edgedb:2.3
+#    image: edgedb/edgedb:2.9
+    build:
+      context: edgedb/edgedb-docker/
+      args:
+        version: 2
     hostname: edgedb
     environment:
       EDGEDB_SERVER_SECURITY: insecure_dev_mode
