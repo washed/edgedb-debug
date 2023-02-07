@@ -45,10 +45,10 @@ func insertData(client *edgedb.Client) (*Inserted, error) {
 		insertQuery,
 		&inserted,
 		time.Now().UTC(),
-		47.42,
-		42.69,
-		23.4,
-		21.9)
+		float32(47.42),
+		float32(42.69),
+		float32(23.4),
+		float32(21.9))
 
 	if err != nil {
 		return nil, err
