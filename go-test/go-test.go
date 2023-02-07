@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"os"
 	"time"
 
@@ -26,11 +27,15 @@ func getEdgeDbClient() *edgedb.Client {
 }
 
 func insertData(client *edgedb.Client) (*Inserted, error) {
-	insertQuery := `
-	INSERT InsertTest {
+	insertQuery := fmt.Sprintf(`
+	INSERT ShellyTRV {
 		timestamp := <datetime>$0,
-		source := <str>$1
-	}`
+		device := (insert Device { device_id := "%s" } unless conflict on .device_id else (select Device)),
+		battery := <float32>$1,
+		position := <float32>$2,
+		target_temperature := <float32>$3,
+		temperature := <float32>$4
+	}`, "go-test-trv")
 
 	var inserted Inserted
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
@@ -40,7 +45,10 @@ func insertData(client *edgedb.Client) (*Inserted, error) {
 		insertQuery,
 		&inserted,
 		time.Now().UTC(),
-		"go-test")
+		47.42,
+		42.69,
+		23.4,
+		21.9)
 
 	if err != nil {
 		return nil, err
