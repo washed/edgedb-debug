@@ -5,11 +5,7 @@ volumes:
 
 services:
   edgedb:
-#    image: edgedb/edgedb:2.9
-    build:
-      context: edgedb/edgedb-docker/
-      args:
-        version: 2
+    image: edgedb/edgedb:2.9
     hostname: edgedb
     environment:
       EDGEDB_SERVER_SECURITY: insecure_dev_mode
@@ -18,18 +14,19 @@ services:
       EDGEDB_SERVER_USER: edgedb
       EDGEDB_SERVER_PASSWORD: secret
       EDGEDB_SERVER_ADMIN_UI: enabled
+      EDGEDB_DOCKER_LOG_LEVEL: trace
     volumes:
       - ./edgedb/dbschema:/dbschema
       - edgedb-data:/var/lib/edgedb/data
     ports:
       - "5658:5656"
     restart: always
-#    healthcheck:
-#      test: [ "CMD", "curl", "-f", "http://localhost:5656/server/status/ready"]
-#      interval: 5s
-#      timeout: 5s
-#      retries: 100
-#      start_period: 10s
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:5656/server/status/ready"]
+      interval: 5s
+      timeout: 5s
+      retries: 100
+      start_period: 10s
 
   go-test:
     build:
@@ -37,9 +34,9 @@ services:
     restart: always
     environment:
       EDGEDB_DSN: 'edgedb://edgedb:secret@edgedb:5656/edgedb?tls_security=insecure'
-#    depends_on:
-#      edgedb:
-#        condition: service_healthy
+    depends_on:
+      edgedb:
+        condition: service_healthy
 
   js-test:
     build:
@@ -47,6 +44,6 @@ services:
     restart: always
     environment:
       EDGEDB_DSN: 'edgedb://edgedb:secret@edgedb:5656/edgedb?tls_security=insecure'
-#    depends_on:
-#      edgedb:
-#        condition: service_healthy
+    depends_on:
+      edgedb:
+        condition: service_healthy
